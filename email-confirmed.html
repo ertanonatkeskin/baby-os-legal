@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="robots" content="noindex" />
+  <title>Bebio</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 48px 16px; background: #f7f7f4; color: #1f2a24; }
+    main { max-width: 420px; margin: 0 auto; text-align: center; }
+    h1 { font-size: 24px; }
+    p { font-size: 16px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 id="title">E-postan doğrulandı</h1>
+    <p id="body">Bebio uygulamasına dönüp e-posta adresin ve şifrenle giriş yapabilirsin.</p>
+  </main>
+  <script>
+    // Supabase Auth appends the result to the URL fragment. The fragment never
+    // reaches this server; it is read once here and removed from history so no
+    // token stays in the address bar or the browser history.
+    (function () {
+      var hash = window.location.hash || "";
+      var params = new URLSearchParams(hash.replace(/^#/, ""));
+      if (params.get("error") || params.get("error_code")) {
+        document.getElementById("title").textContent = "Bağlantı geçersiz";
+        document.getElementById("body").textContent =
+          "Bu doğrulama bağlantısının süresi dolmuş ya da daha önce kullanılmış. Bebio uygulamasında giriş yapmayı deneyebilir ya da yeniden kayıt olabilirsin.";
+      }
+      if (hash) history.replaceState(null, "", window.location.pathname);
+    })();
+  </script>
+</body>
+</html>
